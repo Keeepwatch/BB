@@ -6,7 +6,7 @@ floating-collection-button .collection-button__particles {position:absolute;inse
 floating-collection-button .collection-button__dot {position:absolute;width:5px;height:5px;left:0;top:0;border-radius:50%;background:#c9ceca;pointer-events:none;}
 floating-collection-button .collection-button:is(:hover,:active)::before,
 floating-collection-button .collection-button:is(:hover,:active) .collection-button__particles {transform:translateX(0);opacity:1;transition:opacity 300ms ease,transform 0ms;}
-floating-collection-button .collection-button:is(:hover,:active) .collection-button__label {color:#f1f1f1;}
+floating-collection-button .collection-button:is(:hover,:active) .collection-button__label {color:#F4F4F4;}
 
 floating-collection-button .collection-button:is(:active) {border-color:#ddf964;}
 floating-collection-button .collection-button:is(:focus-visible:not(:active)) {background:#ddf964;border-color:#121212;}
