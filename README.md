@@ -1,97 +1,102 @@
-# New collection — передача разработчикам Shopify
+# New Collection — Shopify Button Handoff
 
-## Видеореференс анимации
+## Animation video reference
 
 https://github.com/user-attachments/assets/be96417c-83aa-45f6-ad8d-3954b703b7a2
 
-[Интерактивное демо — одна кнопка](https://keeepwatch.github.io/BB/)
+[Try the interactive demo](https://keeepwatch.github.io/BB/)
 
+A reusable button for a standard Shopify Liquid theme. No React, build step, or JavaScript libraries required.
 
-Пакет для обычной Shopify Liquid theme. Без React, сборки и библиотек JavaScript.
+## Files
 
-## Файлы
+- `index.html` — a single interactive button. To run locally, download and extract the repository, then open this file in a browser. Keep the `assets` folder beside it.
+- `snippets/collection-button.liquid` — reusable Shopify snippet.
+- `assets/collection-button.css` — appearance, states, and transitions.
+- `assets/collection-button.js` — independent floating particles for each button instance.
 
-- index.html — одна интерактивная кнопка; откройте в браузере после распаковки всего ZIP. Папку assets сохраняйте рядом.
-- snippets/collection-button.liquid — переиспользуемый компонент.
-- assets/collection-button.css — стили и состояния.
-- assets/collection-button.js — независимые частицы для каждого экземпляра кнопки.
+## Shopify integration
 
-## Подключение в Shopify
-
-1. Скопировать snippet в snippets/, CSS и JS в assets/ своей темы.
-2. Один раз добавить в layout/theme.liquid внутри <head>:
+1. Copy the snippet into your theme's `snippets/` directory and the CSS and JavaScript files into `assets/`.
+2. Include the assets once inside `<head>` in `layout/theme.liquid`:
 
 ```liquid
 {{ 'collection-button.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'collection-button.js' | asset_url }}" defer></script>
 ```
 
-3. Подключить Geist Regular 400 через принятую в проекте загрузку шрифтов. Демо использует Google Fonts; CSS компонента сам внешних шрифтов не загружает.
-4. В нужном месте темы вывести кнопку:
+3. Load Geist Regular 400 using the project's existing font setup. The demo uses Google Fonts; the component stylesheet does not load external fonts.
+4. Render the component where needed:
 
 ```liquid
 {% render 'collection-button', label: 'New collection', href: routes.all_products_collection_url %}
 ```
 
-Пример использует каталог всех товаров. Для конкретной коллекции передайте её URL.
+This example links to the all-products collection. Pass the appropriate URL for a specific collection.
 
-Кнопка действия (обработчик действия подключает разработчик):
+For an action button, connect the required action in your theme:
 
 ```liquid
 {% render 'collection-button', label: 'New collection' %}
 ```
 
-Кнопка отправки формы, размещается внутри нужного <form>:
+For a form submission, render inside the relevant `<form>`:
 
 ```liquid
 {% render 'collection-button', label: 'New collection', type: 'submit' %}
 ```
 
-Неактивная кнопка:
+For a disabled button:
 
 ```liquid
 {% render 'collection-button', label: 'New collection', disabled: true %}
 ```
 
-Компонент — custom element: автоматически инициализируется при вставке в DOM, включая перезагрузку секций редактором Shopify. При удалении останавливает анимацию; повторное подключение того же DOM-элемента сохраняет частицы. CSS ограничен компонентом. Приоритет: Disabled → Pressed → Focused → Hover → Default. Фокус клавиатурой определяется :focus-visible; стандартный доступный outline браузера сохранён. На touch применяется нативное нажатие без залипающего режима Hover.
+The component is a custom element. It initializes when inserted into the DOM, including when Shopify's theme editor reloads a section. Removing it stops the animation; reconnecting the same DOM element preserves its particles. CSS is scoped to the component.
 
-## Внешний вид и состояния
+State priority: Disabled → Pressed → Focused → Hover → Default. Keyboard focus uses `:focus-visible`; the browser's accessible focus outline is preserved. Touch interaction uses native press behavior without a custom persistent Hover toggle.
 
-Размер 146 × 40 px, border-box. Рамка 1 px, без скругления. Размер восстановлен по пропорциям исходного скриншота.
-Geist Regular 400, 14 px / 16 px, letter-spacing 0, uppercase, центрирование.
+## Appearance and states
 
-| Состояние | Фон | Текст | Рамка | Частицы |
+- Button: **146 × 40 px**, `border-box`, 1 px border, square corners. Dimensions were inferred from the original screenshot's proportions.
+- Typography: **Geist Regular 400, 14 px / 16 px**, zero letter spacing, uppercase, centered.
+
+| State | Background | Text | Border | Particles |
 | --- | --- | --- | --- | --- |
-| Default | прозрачный | #121212 | #121212, 1 px | скрыты |
-| Hover | #0B0B0B | #F1F1F1 | #121212, 1 px | видны, парят |
-| Pressed | как Hover | #F1F1F1 | #DDF964, 1 px | как Hover |
-| Focused | #DDF964 | #121212 | #121212, 1 px | скрыты |
-| Disabled | #D4D4D4 | #636363 | #D4D4D4, 1 px | скрыты |
+| Default | Transparent | #121212 | #121212, 1 px | Hidden |
+| Hover | #0B0B0B | #F1F1F1 | #121212, 1 px | Visible, floating |
+| Pressed | Same as Hover | #F1F1F1 | #DDF964, 1 px | Same as Hover |
+| Focused | #DDF964 | #121212 | #121212, 1 px | Hidden |
+| Disabled | #D4D4D4 | #636363 | #D4D4D4, 1 px | Hidden |
 
-## Анимация
+## Hover animation
 
-- Default → Hover: фон и частицы проявляются на месте за 300 ms, ease; текст меняет цвет за 300 ms.
-- Hover → Default: фон и слой частиц уезжают справа налево за 420 ms, cubic-bezier(.22,.61,.36,1). По окончании слой скрывается.
-- Частицы круглые, 5 × 5 px, #C9CECA, наложение mix-blend-mode: difference. При пересечении текста меняется цвет пересечения.
-- 4–8 частиц на экземпляр. Количество и начальное расположение определяются один раз при создании кнопки. На повторном наведении набор не пересоздаётся.
-- Независимое плавное парение: скорость 1.8–4 px/s, случайная смена направления каждые 1.4–3.8 s со сглаживанием. Движение ограничено кнопкой.
-- После ухода курсора парение ставится на паузу; при возврате продолжается с сохранённых позиций.
-- При prefers-reduced-motion переходы и парение отключены, состояния остаются доступны.
-- После перезагрузки страницы создаётся новый набор. Сохранение между загрузками не предусмотрено.
+- **Default → Hover:** the background and particles fade in on the spot over **300 ms**, with `ease`. Text color also transitions over 300 ms. No slide-in motion on entry.
+- **Hover → Default:** the background and particle layer slide **from right to left over 420 ms**, using `cubic-bezier(.22,.61,.36,1)`. The layer is hidden after the slide completes.
+- Particles are circles, **5 px in diameter**, color **#C9CECA**, with `mix-blend-mode: difference`. The overlap color changes when particles cross the button text.
+- Each instance has **4–8 particles**. The count and initial positions are chosen once when the button is created. Returning the cursor does not generate a new set.
+- Each particle floats independently and changes direction randomly, without synchronized repeating paths. Motion stays inside the button.
+- Reference motion parameters: **1.8–4 px/s**, with a smoothly changing random direction every **1.4–3.8 seconds**.
+- Leaving the button pauses floating motion. Returning resumes from the saved positions.
+- With `prefers-reduced-motion`, transitions and floating motion are disabled; all states remain available.
+- Reloading the page creates a new particle set. Positions are not persisted across page loads.
 
-## Как проверить / записать видео
+Use the video as the reference for animation behavior and Figma for visual styling. The code demonstrates the parameters and logic and may be adapted to the current theme architecture.
 
-Открыть index.html. Навести курсор, подождать 5–10 секунд, зажать кнопку мыши (Pressed), отпустить, увести курсор. Снова навести, чтобы показать сохранение частиц. Увести курсор и нажать Tab для Focused. Disabled проверить через соответствующий пример render выше.
-Видеореференс приложен в начале README.
+## Manual verification
 
-## Границы проверки
+Open the interactive demo or local `index.html`. Hover for 5–10 seconds, press and hold the mouse button, release it, and move the cursor away. Hover again to confirm that particles retain their positions. Move the cursor away and press Tab to check keyboard focus. Use the disabled render example above to verify Disabled.
 
-Демо и код не подключены к реальной теме магазина. Перед выпуском разработчикам нужно проверить стили темы, наличие Geist, ссылки/формы, контраст текста во время перехода, работу в редакторе Shopify и целевые браузеры.
+The video reference is embedded at the top of this README.
+
+## Integration checks
+
+This demo has not been integrated into the actual store theme. Before release, verify theme style compatibility, Geist loading, links and forms, text contrast during transitions, section reloads in the Shopify theme editor, and the target browsers.
 
 ## GitHub Pages
 
-Главная страница index.html показывает одну интерактивную кнопку.
-Для публикации: Settings → Pages → Build and deployment → Deploy from a branch → main → / (root) → Save.
-Ссылка на опубликованное демо появится в разделе Pages после завершения публикации.
+The published demo displays one interactive button:
 
-Видеореференс доступен в начале README.
+https://keeepwatch.github.io/BB/
+
+Publishing source: **Settings → Pages → Build and deployment → Deploy from a branch → main → / (root)**.
