@@ -64,8 +64,8 @@ State priority: Disabled → Pressed → Focused → Hover → Default. Keyboard
 | State | Background | Text | Border | Particles |
 | --- | --- | --- | --- | --- |
 | Default | Transparent | #121212 | #121212, 1 px | Hidden |
-| Hover | #0B0B0B | #F1F1F1 | #121212, 1 px | Visible, floating |
-| Pressed | Same as Hover | #F1F1F1 | #DDF964, 1 px | Same as Hover |
+| Hover | #0B0B0B | #F4F4F4 | #121212, 1 px | Visible, floating |
+| Pressed | Same as Hover | #F4F4F4 | #DDF964, 1 px | Same as Hover |
 | Focused | #DDF964 | #121212 | #121212, 1 px | Hidden |
 | Disabled | #D4D4D4 | #636363 | #D4D4D4, 1 px | Hidden |
 
