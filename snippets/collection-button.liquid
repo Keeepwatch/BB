@@ -1,0 +1,18 @@
+{% comment %}
+  Include collection-button.css and collection-button.js once in theme.liquid.
+  Parameters: label, href (optional), disabled (boolean), type (default: button).
+  For a form submission use type: 'submit'. Disabled always renders a native button.
+{% endcomment %}
+<floating-collection-button>
+  {% if href != blank and disabled != true %}
+    <a class="collection-button" href="{{ href | escape }}">
+      <span class="collection-button__label">{{ label | default: 'New collection' | escape }}</span>
+      <span class="collection-button__particles" aria-hidden="true"></span>
+    </a>
+  {% else %}
+    <button class="collection-button" type="{{ type | default: 'button' | escape }}"{% if disabled %} disabled{% endif %}>
+      <span class="collection-button__label">{{ label | default: 'New collection' | escape }}</span>
+      <span class="collection-button__particles" aria-hidden="true"></span>
+    </button>
+  {% endif %}
+</floating-collection-button>

@@ -1,0 +1,23 @@
+floating-collection-button {display:inline-block;vertical-align:middle;}
+floating-collection-button .collection-button {box-sizing:border-box; position:relative; isolation:isolate; width:146px; height:40px; padding:0; border:1px solid #121212; border-radius:0; background:transparent; color:#121212; font-family:'Geist',sans-serif; font-size:14px; font-weight:400; font-style:normal; line-height:16px; letter-spacing:0; text-transform:uppercase; text-align:center;  appearance:none;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;cursor:pointer; overflow:hidden;}
+floating-collection-button .collection-button::before {content:"";position:absolute;inset:0;z-index:-1;background:#0b0b0b;transform:translateX(-100%);opacity:0;transition:transform 420ms cubic-bezier(.22,.61,.36,1),opacity 0ms linear 420ms;}
+floating-collection-button .collection-button__label {position:relative;z-index:0;display:block;white-space:nowrap;color:#121212;transition:color 300ms ease;}
+floating-collection-button .collection-button__particles {position:absolute;inset:0;z-index:1;pointer-events:none;mix-blend-mode:difference;transform:translateX(-100%);opacity:0;transition:transform 420ms cubic-bezier(.22,.61,.36,1),opacity 0ms linear 420ms;}
+floating-collection-button .collection-button__dot {position:absolute;width:5px;height:5px;left:0;top:0;border-radius:50%;background:#c9ceca;pointer-events:none;}
+floating-collection-button .collection-button:is(:hover,:active)::before,
+floating-collection-button .collection-button:is(:hover,:active) .collection-button__particles {transform:translateX(0);opacity:1;transition:opacity 300ms ease,transform 0ms;}
+floating-collection-button .collection-button:is(:hover,:active) .collection-button__label {color:#f1f1f1;}
+
+floating-collection-button .collection-button:is(:active) {border-color:#ddf964;}
+floating-collection-button .collection-button:is(:focus-visible:not(:active)) {background:#ddf964;border-color:#121212;}
+floating-collection-button .collection-button:is(:focus-visible:not(:active)) .collection-button__label {color:#121212;transition:none;}
+floating-collection-button .collection-button:is(:focus-visible:not(:active))::before,
+floating-collection-button .collection-button:is(:focus-visible:not(:active)) .collection-button__particles {opacity:0;transition:none;}
+floating-collection-button .collection-button:disabled {background:#d4d4d4;border-color:#d4d4d4;cursor:not-allowed;}
+floating-collection-button .collection-button:disabled .collection-button__label {color:#636363;transition:none;}
+floating-collection-button .collection-button:disabled::before,
+floating-collection-button .collection-button:disabled .collection-button__particles {opacity:0;transition:none;}
+
+@media(prefers-reduced-motion:reduce){floating-collection-button .collection-button::before,floating-collection-button .collection-button__particles{transition:none;}}
+
+@media (prefers-reduced-motion:reduce){floating-collection-button .collection-button__label{transition:none;}}
